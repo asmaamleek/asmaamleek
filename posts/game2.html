@@ -1,1 +1,613 @@
-hi
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لعبة هذا وهذه 🌟</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --boy: #4FC3F7;
+    --girl: #F48FB1;
+    --gold: #FFD700;
+    --green: #66BB6A;
+    --purple: #CE93D8;
+    --bg: #FFF9C4;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Tajawal', sans-serif;
+    background: var(--bg);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Stars background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: 
+      radial-gradient(circle at 20% 20%, rgba(255,215,0,0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(244,143,177,0.15) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, rgba(79,195,247,0.1) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* HEADER */
+  .header {
+    text-align: center;
+    padding: 30px 20px 20px;
+    animation: bounceIn 0.8s ease;
+  }
+
+  .header h1 {
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: 900;
+    background: linear-gradient(135deg, #FF6B6B, #FF8E53, #FFD700, #4CAF50, #2196F3, #9C27B0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: none;
+    line-height: 1.2;
+    filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));
+  }
+
+  .header .subtitle {
+    font-size: 1.3rem;
+    color: #6A1B9A;
+    margin-top: 8px;
+    font-weight: 700;
+  }
+
+  /* RULES BOX */
+  .rules {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin: 20px 0;
+    flex-wrap: wrap;
+  }
+
+  .rule-card {
+    padding: 15px 25px;
+    border-radius: 20px;
+    font-size: 1.4rem;
+    font-weight: 900;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    animation: pulse 2s infinite;
+  }
+
+  .rule-hatha {
+    background: linear-gradient(135deg, #4FC3F7, #0288D1);
+    color: white;
+  }
+
+  .rule-hathihi {
+    background: linear-gradient(135deg, #F48FB1, #C2185B);
+    color: white;
+  }
+
+  /* PROGRESS */
+  .progress-bar {
+    background: white;
+    border-radius: 50px;
+    height: 20px;
+    margin: 15px 0;
+    box-shadow: inset 0 3px 6px rgba(0,0,0,0.1);
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #66BB6A, #FFD700, #FF6B6B);
+    border-radius: 50px;
+    transition: width 0.5s ease;
+  }
+
+  .score-display {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #6A1B9A;
+    margin-bottom: 10px;
+  }
+
+  /* QUESTION CARD */
+  .question-card {
+    background: white;
+    border-radius: 30px;
+    padding: 30px 20px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+    text-align: center;
+    animation: slideUp 0.5s ease;
+    border: 4px solid transparent;
+    background-clip: padding-box;
+    position: relative;
+  }
+
+  .question-card::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 34px;
+    background: linear-gradient(135deg, var(--boy), var(--girl), var(--gold));
+    z-index: -1;
+  }
+
+  .q-number {
+    font-size: 1rem;
+    color: #9E9E9E;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .q-text {
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    font-weight: 900;
+    color: #212121;
+    margin-bottom: 20px;
+    line-height: 1.4;
+  }
+
+  .emoji-display {
+    font-size: clamp(4rem, 12vw, 7rem);
+    margin: 15px 0;
+    animation: floatAnim 3s ease-in-out infinite;
+    display: block;
+  }
+
+  /* OPTIONS */
+  .options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 20px;
+  }
+
+  .option-btn {
+    padding: 20px 15px;
+    border: none;
+    border-radius: 20px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    font-weight: 900;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .option-hatha {
+    background: linear-gradient(135deg, #4FC3F7, #0288D1);
+    color: white;
+  }
+
+  .option-hathihi {
+    background: linear-gradient(135deg, #F48FB1, #C2185B);
+    color: white;
+  }
+
+  .option-btn:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+  }
+
+  .option-btn:active { transform: scale(0.95); }
+
+  .option-btn.correct {
+    background: linear-gradient(135deg, #66BB6A, #2E7D32) !important;
+    animation: correctAnim 0.5s ease;
+  }
+
+  .option-btn.wrong {
+    background: linear-gradient(135deg, #EF5350, #B71C1C) !important;
+    animation: shake 0.5s ease;
+  }
+
+  /* FEEDBACK */
+  .feedback {
+    font-size: 2rem;
+    font-weight: 900;
+    text-align: center;
+    margin-top: 15px;
+    min-height: 50px;
+    animation: popIn 0.3s ease;
+  }
+
+  .feedback.correct { color: #2E7D32; }
+  .feedback.wrong { color: #B71C1C; }
+
+  /* CELEBRATION SCREEN */
+  .end-screen {
+    display: none;
+    text-align: center;
+    background: white;
+    border-radius: 30px;
+    padding: 40px 20px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    animation: bounceIn 0.8s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .end-screen.show { display: block; }
+
+  .teacher-emoji {
+    font-size: 6rem;
+    animation: dance 0.5s ease infinite alternate;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .end-title {
+    font-size: clamp(2rem, 6vw, 3rem);
+    font-weight: 900;
+    background: linear-gradient(135deg, #FF6B6B, #FFD700, #4CAF50, #2196F3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 15px;
+  }
+
+  .miss-msg {
+    font-size: clamp(1.2rem, 3.5vw, 1.6rem);
+    font-weight: 700;
+    color: #6A1B9A;
+    background: linear-gradient(135deg, #EDE7F6, #F3E5F5);
+    padding: 20px;
+    border-radius: 20px;
+    margin: 15px 0;
+    border: 3px dashed #9C27B0;
+    line-height: 1.6;
+  }
+
+  .final-score {
+    font-size: 2rem;
+    font-weight: 900;
+    color: #FF6B6B;
+    margin: 10px 0;
+  }
+
+  .star-row {
+    font-size: 2.5rem;
+    margin: 10px 0;
+    animation: pulse 1s infinite;
+  }
+
+  .confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    animation: fall 3s linear infinite;
+  }
+
+  .restart-btn {
+    background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 50px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 900;
+    cursor: pointer;
+    margin-top: 20px;
+    box-shadow: 0 8px 20px rgba(255,107,107,0.4);
+    transition: all 0.2s ease;
+  }
+
+  .restart-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+  }
+
+  /* Floating stars decoration */
+  .floaty {
+    position: fixed;
+    font-size: 1.5rem;
+    animation: floatRandom 4s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ANIMATIONS */
+  @keyframes bounceIn {
+    0% { transform: scale(0.3); opacity: 0; }
+    60% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  @keyframes floatAnim {
+    0%, 100% { transform: translateY(0) rotate(-3deg); }
+    50% { transform: translateY(-15px) rotate(3deg); }
+  }
+
+  @keyframes correctAnim {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+  }
+
+  @keyframes popIn {
+    from { transform: scale(0.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  @keyframes dance {
+    from { transform: rotate(-10deg) scale(1); }
+    to { transform: rotate(10deg) scale(1.1); }
+  }
+
+  @keyframes fall {
+    0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  }
+
+  @keyframes floatRandom {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    33% { transform: translateY(-20px) rotate(10deg); }
+    66% { transform: translateY(10px) rotate(-10deg); }
+  }
+</style>
+</head>
+<body>
+
+<!-- Floating decorations -->
+<div class="floaty" style="top:5%;left:3%;animation-delay:0s">⭐</div>
+<div class="floaty" style="top:15%;right:5%;animation-delay:1s">🌸</div>
+<div class="floaty" style="top:60%;left:2%;animation-delay:2s">🌈</div>
+<div class="floaty" style="top:70%;right:3%;animation-delay:0.5s">🦋</div>
+<div class="floaty" style="top:40%;left:1%;animation-delay:1.5s">💫</div>
+
+<div class="container">
+  <div class="header">
+    <h1>🌟 هذا وهذه 🌟</h1>
+    <div class="subtitle">👦 هذا = مذكر &nbsp;|&nbsp; 👧 هذه = مؤنث</div>
+  </div>
+
+  <div class="rules">
+    <div class="rule-card rule-hatha">💙 هذا<br><small style="font-size:0.8rem">للمذكر</small></div>
+    <div class="rule-card rule-hathihi">💗 هذه<br><small style="font-size:0.8rem">للمؤنث</small></div>
+  </div>
+
+  <div class="score-display">النقاط: <span id="scoreText">0</span> / 20</div>
+  <div class="progress-bar">
+    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+  </div>
+
+  <!-- Question Section -->
+  <div class="question-card" id="questionCard">
+    <div class="q-number" id="qNumber">السؤال 1 من 20</div>
+    <div class="q-text" id="qText">اختر الكلمة الصحيحة! 🎯</div>
+    <span class="emoji-display" id="qEmoji">🎈</span>
+    <div class="options">
+      <button class="option-btn option-hatha" id="btn1" onclick="answer(0)">هذا</button>
+      <button class="option-btn option-hathihi" id="btn2" onclick="answer(1)">هذه</button>
+    </div>
+    <div class="feedback" id="feedback"></div>
+  </div>
+
+  <!-- End Screen -->
+  <div class="end-screen" id="endScreen">
+    <span class="teacher-emoji">👩‍🏫</span>
+    <div class="end-title">🎉 أحسنت يا بطل! 🎉</div>
+    <div class="star-row" id="starRow">⭐⭐⭐⭐⭐</div>
+    <div class="final-score" id="finalScore">نقاطك: 20 / 20</div>
+    <div class="miss-msg" id="missMsg">
+      🌹 ميس أسماء فخورة بك جداً! 🌹<br>
+      أنت نجم ⭐ رياض الأطفال!<br>
+      تعلمت هذا وهذه بشكل رائع 🌈💖
+    </div>
+    <button class="restart-btn" onclick="restart()">🔄 العب مرة أخرى</button>
+  </div>
+</div>
+
+<script>
+const questions = [
+  { emoji: "🚗", word: "سيارة", answer: 1 },
+  { emoji: "📚", word: "كتاب", answer: 0 },
+  { emoji: "🌸", word: "وردة", answer: 1 },
+  { emoji: "🦁", word: "أسد", answer: 0 },
+  { emoji: "🎒", word: "حقيبة", answer: 1 },
+  { emoji: "🏠", word: "بيت", answer: 0 },
+  { emoji: "🐱", word: "قطة", answer: 1 },
+  { emoji: "🖊️", word: "قلم", answer: 0 },
+  { emoji: "🍎", word: "تفاحة", answer: 1 },
+  { emoji: "🐘", word: "فيل", answer: 0 },
+  { emoji: "🌙", word: "قمر", answer: 0 },
+  { emoji: "🦢", word: "بطة", answer: 1 },
+  { emoji: "⚽", word: "كرة", answer: 1 },
+  { emoji: "🪑", word: "كرسي", answer: 0 },
+  { emoji: "🐝", word: "نحلة", answer: 1 },
+  { emoji: "🌞", word: "شمس", answer: 1 },
+  { emoji: "🐟", word: "سمكة", answer: 1 },
+  { emoji: "🦅", word: "نسر", answer: 0 },
+  { emoji: "🌷", word: "زهرة", answer: 1 },
+  { emoji: "🐊", word: "تمساح", answer: 0 },
+];
+
+let current = 0;
+let score = 0;
+let answered = false;
+
+function loadQuestion() {
+  const q = questions[current];
+  document.getElementById('qNumber').textContent = `السؤال ${current + 1} من ${questions.length}`;
+  
+  const isHatha = q.answer === 0;
+  document.getElementById('qText').textContent = `${isHatha ? 'هذا' : 'هذه'} ... ${q.word} 🤔`;
+  document.getElementById('qEmoji').textContent = q.emoji;
+  document.getElementById('feedback').textContent = '';
+  document.getElementById('feedback').className = 'feedback';
+
+  const btn1 = document.getElementById('btn1');
+  const btn2 = document.getElementById('btn2');
+  btn1.className = 'option-btn option-hatha';
+  btn2.className = 'option-btn option-hathihi';
+  btn1.disabled = false;
+  btn2.disabled = false;
+  btn1.textContent = 'هذا';
+  btn2.textContent = 'هذه';
+
+  answered = false;
+  document.getElementById('progressFill').style.width = `${(current / questions.length) * 100}%`;
+}
+
+function answer(choice) {
+  if (answered) return;
+  answered = true;
+
+  const q = questions[current];
+  const correct = choice === q.answer;
+  const btn = document.getElementById(choice === 0 ? 'btn1' : 'btn2');
+  const wrongBtn = document.getElementById(choice === 0 ? 'btn2' : 'btn1');
+  const fb = document.getElementById('feedback');
+
+  document.getElementById('btn1').disabled = true;
+  document.getElementById('btn2').disabled = true;
+
+  if (correct) {
+    score++;
+    btn.classList.add('correct');
+    fb.textContent = getPositive();
+    fb.className = 'feedback correct';
+  } else {
+    btn.classList.add('wrong');
+    // Show correct answer
+    const correctBtn = document.getElementById(q.answer === 0 ? 'btn1' : 'btn2');
+    correctBtn.classList.add('correct');
+    fb.textContent = '❌ حاول مرة أخرى في المرة القادمة!';
+    fb.className = 'feedback wrong';
+  }
+
+  document.getElementById('scoreText').textContent = score;
+
+  setTimeout(() => {
+    current++;
+    if (current >= questions.length) {
+      showEnd();
+    } else {
+      loadQuestion();
+    }
+  }, 1500);
+}
+
+function getPositive() {
+  const msgs = [
+    '✅ ممتاز! 🌟',
+    '✅ رائع! 🎉',
+    '✅ أحسنت! ⭐',
+    '✅ بطل! 🏆',
+    '✅ جميل! 🌈',
+    '✅ شاطر! 💫',
+    '✅ نجم! ⭐',
+  ];
+  return msgs[Math.floor(Math.random() * msgs.length)];
+}
+
+function showEnd() {
+  document.getElementById('progressFill').style.width = '100%';
+  document.getElementById('questionCard').style.display = 'none';
+  const endScreen = document.getElementById('endScreen');
+  endScreen.classList.add('show');
+
+  const pct = score / questions.length;
+  let stars = '⭐⭐⭐⭐⭐';
+  let msg = '';
+  let emoji = '👩‍🏫';
+
+  if (pct === 1) {
+    stars = '⭐⭐⭐⭐⭐';
+    msg = `🌹 ميس أسماء فخورة بك جداً جداً! 🌹\n\nحصلت على ${score} من ${questions.length} 🏆\nأنت نجم ⭐ رياض الأطفال!\nتعلمت هذا وهذه بشكل رائع جداً! 🌈💖\nاستمر هكذا يا بطل الفصل! 🎉`;
+    emoji = '🥰👩‍🏫';
+  } else if (pct >= 0.8) {
+    stars = '⭐⭐⭐⭐';
+    msg = `💖 ميس أسماء فخورة بك! 💖\n\nحصلت على ${score} من ${questions.length}\nأداء رائع يا نجم! 🌟\nاستمر في التعلم وستصل للكمال! 💪`;
+    emoji = '😊👩‍🏫';
+  } else if (pct >= 0.6) {
+    stars = '⭐⭐⭐';
+    msg = `💛 أحسنت يا صغير! 💛\n\nحصلت على ${score} من ${questions.length}\nميس أسماء سعيدة بك!\nراجع الدرس وستكون أفضل! 📚`;
+    emoji = '😄👩‍🏫';
+  } else {
+    stars = '⭐⭐';
+    msg = `💙 لا بأس يا حبيبي! 💙\n\nحصلت على ${score} من ${questions.length}\nميس أسماء تشجعك!\nراجع الدرس وحاول مرة أخرى! 💪📚`;
+    emoji = '🤗👩‍🏫';
+  }
+
+  document.getElementById('starRow').textContent = stars;
+  document.getElementById('finalScore').textContent = `نقاطك: ${score} من ${questions.length}`;
+  document.querySelector('.teacher-emoji').textContent = emoji;
+  document.getElementById('missMsg').innerHTML = msg.replace(/\n/g, '<br>');
+
+  // Add confetti
+  addConfetti();
+}
+
+function addConfetti() {
+  const colors = ['#FF6B6B','#FFD700','#4CAF50','#2196F3','#9C27B0','#FF8E53'];
+  const endScreen = document.getElementById('endScreen');
+  for (let i = 0; i < 20; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.background = colors[Math.floor(Math.random() * colors.length)];
+    c.style.left = Math.random() * 100 + '%';
+    c.style.top = '-10px';
+    c.style.animationDelay = Math.random() * 3 + 's';
+    c.style.animationDuration = (2 + Math.random() * 3) + 's';
+    endScreen.appendChild(c);
+  }
+}
+
+function restart() {
+  current = 0;
+  score = 0;
+  answered = false;
+  document.getElementById('scoreText').textContent = '0';
+  document.getElementById('questionCard').style.display = 'block';
+  document.getElementById('endScreen').classList.remove('show');
+  document.getElementById('endScreen').innerHTML = `
+    <span class="teacher-emoji">👩‍🏫</span>
+    <div class="end-title">🎉 أحسنت يا بطل! 🎉</div>
+    <div class="star-row" id="starRow">⭐⭐⭐⭐⭐</div>
+    <div class="final-score" id="finalScore">نقاطك: 20 / 20</div>
+    <div class="miss-msg" id="missMsg">🌹 ميس أسماء فخورة بك جداً! 🌹<br>أنت نجم ⭐ رياض الأطفال!<br>تعلمت هذا وهذه بشكل رائع 🌈💖</div>
+    <button class="restart-btn" onclick="restart()">🔄 العب مرة أخرى</button>
+  `;
+  loadQuestion();
+}
+
+// Start
+loadQuestion();
+</script>
+</body>
+</html>
